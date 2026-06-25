@@ -14,6 +14,9 @@ services:
       - mariadb_data:/var/lib/mysql
     networks:
       - inception_network
+    secrets:
+      - db_password
+      - db_root_password
 
   wordpress:
     depends_on:
@@ -30,6 +33,8 @@ services:
       - wordpress_data:/var/www/wordpress
     networks:
       - inception_network
+    secrets:
+      - db_password
 
   nginx:
     depends_on:
@@ -46,6 +51,12 @@ services:
       - inception_network
     volumes:
       - wordpress_data:/var/www/wordpress
+
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt
 
 volumes:
   mariadb_data:
@@ -64,3 +75,4 @@ volumes:
 networks:
   inception_network:
     driver: bridge
+
