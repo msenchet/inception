@@ -24,7 +24,14 @@ if [ -n "${SQL_DATABASE}" ] && [ ! -d "/var/lib/mysql/${SQL_DATABASE}" ]; then
     
     # Arrêt du service temporaire
     mysqladmin -u root -p"${SQL_ROOT_PASSWORD}" shutdown
+
+	# Sécurite si le shutdown a était déclancer
+	while mysqladmin ping --silent 2>/dev/null; do
+    sleep 1
+done
 fi
+
+
 
 # Lancer MariaDB au premier plan pour Docker
 exec mysqld_safe --user=mysql --datadir=/var/lib/mysql
