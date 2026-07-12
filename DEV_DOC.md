@@ -8,7 +8,7 @@ This document describes how to set up, build, and manage the Inception developme
 * A Linux-based environment (or VM) with Docker (Engine & Compose) installed.
 * GNU Make.
 
-### Directory Structure setup
+### Directory Structure Setup
 Ensure your workspace matches the expected layout:
 ```text
 .
@@ -42,7 +42,7 @@ The project uses a `Makefile` to simplify operations:
 
 ## 3. Management and Troubleshooting Commands
 
-### inspect container configuration
+### Inspect Container Configuration
 ```bash
 docker inspect <container_name>
 ```
@@ -80,64 +80,65 @@ The services persist data outside of the container's volatile filesystem. The na
 
 ---
 
-## 5. LIEN ENTRE HOTE ET VM
+## 5. Connection between Host and VM
 
-Objectif:
-Utiliser une clé SSH présente sur la machine hôte depuis une VM.
-La clé privée reste uniquement sur l'hôte.
-Dans l'hôte:
-1/ Récupérer l'IP de l'hôte:
+Objective:
+Use an SSH key present on the host machine from within a VM.
+The private key remains only on the host.
+
+On the host:
+1/ Retrieve the host IP address:
 ```bash
 ifconfig | awk '/inet 10\./ {print $2}'
 ```
 
-2/ Créer un relais TCP sur un port entre 1024 et 49151:
+2/ Create a TCP relay on a port between 1024 and 49151:
 ```bash
 socat TCP-LISTEN:<port>,reuseaddr,fork UNIX-CONNECT:$SSH_AUTH_SOCK
 ```
 
-3/ ⚠️Laisser ce terminal ouvert.
+3/ ⚠️ Leave this terminal open.
 
-Dans la VM:
-1/ Installer socat sur la machine virtuelle:
+In the VM:
+1/ Install `socat` on the virtual machine:
 ```bash
 sudo apt install socat
 ```
 
-2/ Supprimer l'ancien socket (si existant):
+2/ Delete the old socket (if it exists):
 ```bash
 rm -f /tmp/ssh-agent.sock
 ```
 
-3/ Créer un socket local qui pointe vers l'hôte:
+3/ Create a local socket pointing to the host:
 ```bash
-socat UNIX-LISTEN:/tmp/ssh-agent.sock,fork TCP:<IP_hôte>:<port>
+socat UNIX-LISTEN:/tmp/ssh-agent.sock,fork TCP:<host_ip>:<port>
 ```
 
-4/ ⚠️Laisser ce terminal ouvert.
+4/ ⚠️ Leave this terminal open.
 
-5/ Activer l'agent SSH dans la VM dans un nouveau terminal:
+5/ Enable the SSH agent in the VM in a new terminal:
 ```bash
 export SSH_AUTH_SOCK=/tmp/ssh-agent.sock
 ```
 
 
-Tester la connexion:
-1/ Vérifier que la VM voit la clé :
+Test the connection:
+1/ Verify that the VM sees the key:
 ```bash
 ssh-add -l
 ```
 
-2/ Tester la connexion SSH:
+2/ Test the SSH connection:
 ```bash
-ssh -T <site_du_repo>
+ssh -T <repo_host>
 ```
 
-3/ Si l'authentification fonctionne :
+3/ If authentication is successful:
 ```bash
-git clone <repo_git>
+git clone <git_repository_url>
 ```
 
 
-4/ Vous pouvez stopper les socat côté hôte et VM (le lien sera rompu).
+4/ You can now stop the `socat` processes on both host and VM (the connection will be closed).
 
