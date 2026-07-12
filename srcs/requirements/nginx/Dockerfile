@@ -1,4 +1,4 @@
-# Utiliser l'avant-dernière version stable de Debian requise par le sujet
+# Utiliser l'avant-dernière version stable de Debian
 FROM debian:bookworm
 
 # Installer NGINX et OpenSSL, puis nettoyer le cache pour optimiser la taille de l'image
@@ -11,7 +11,7 @@ COPY conf/nginx.conf /etc/nginx/sites-available/default
 COPY tools/nginx_start.sh /var/www/nginx_start.sh
 RUN chmod +x /var/www/nginx_start.sh
 
-# Exposer le port 443 (unique point d'entrée de l'infrastructure)
+# Exposer le port 443
 EXPOSE 443
 
 # Définir le script comme commande de démarrage du conteneur

@@ -41,14 +41,10 @@ You must ensure that your host's local resolution file resolves `masenche.42.fr`
 ---
 
 ## 4. Locating and Managing Credentials
-Credentials and passwords are NOT committed to version control. They are stored locally on the host machine:
-* **Docker Secrets Directory:** Located at `secrets/` at the root of the project.
-  * `secrets/db_password.txt` contains the password for the database user.
-  * `secrets/db_root_password.txt` contains the MariaDB root password.
-  * `secrets/credentials.txt` contains a summary of user credentials.
-* **Environment Configuration:** Located at `srcs/.env` (contains non-secret variables and admin email/usernames).
+Credentials and passwords are NOT committed to version control. They are stored locally on the host machine in the environment configuration file:
+* **Environment Configuration:** Located at `srcs/.env` (and replicated at `.env` at the root), which contains both stack configurations and credentials (database passwords, administrator passwords, etc.).
 
-To change credentials, modify these files and rebuild the containers:
+To change credentials, modify the `srcs/.env` file and rebuild the containers:
 ```bash
 make re
 ```

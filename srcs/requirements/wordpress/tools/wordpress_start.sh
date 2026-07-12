@@ -1,9 +1,6 @@
 #!/bin/bash
 
-# Lire les secrets s'ils existent, sinon utiliser les variables d'environnement
-if [ -f "/run/secrets/db_password" ]; then
-    SQL_PASSWORD=$(cat /run/secrets/db_password)
-fi
+# On utilise directement la variable d'environnement SQL_PASSWORD transmise via le fichier .env
 
 # Se déplacer dans le dossier du site web
 cd /var/www/wordpress

@@ -4,7 +4,7 @@
 This project, **Inception**, aims to broaden knowledge of system administration, virtualization, and infrastructure design by utilizing Docker. It involves setting up a multi-container local stack utilizing Docker Compose to configure and run three services: Nginx (with TLS v1.2/v1.3), WordPress with PHP-FPM, and MariaDB. Each service runs in its own dedicated, isolated container, communicating over a secure custom bridge network with persistent data volumes.
 
 ## Project Description & Technical Choices
-This system administration project implements a secure, containerized web application infrastructure. The container design adheres to Docker best practices (PID 1 optimization, single concern per container, environment-based configuration, and secure credential handling via Docker Secrets).
+This system administration project implements a secure, containerized web application infrastructure. The container design adheres to Docker best practices (PID 1 optimization, single concern per container, and environment-based configuration via `.env` file).
 
 ### Comparisons
 
@@ -13,9 +13,8 @@ This system administration project implements a secure, containerized web applic
 * **Performance:** Docker containers are lightweight, consume significantly fewer resources (CPU, RAM, disk space), and boot up in seconds. VMs are heavier, require pre-allocated resources, and take minutes to start.
 * **Isolation:** VMs offer stronger isolation because they do not share the host kernel. However, Docker containers provide sufficient process isolation for most deployment scenarios with much lower overhead.
 
-#### 2. Secrets vs Environment Variables
-* **Environment Variables:** Excellent for non-sensitive settings (domain names, ports, debug flags). However, they are visible to any process in the container, appear in `docker inspect` logs, and can easily be accidentally exposed.
-* **Secrets:** Used for sensitive data (passwords, private keys, API tokens). Secrets are mounted temporarily in memory (`/run/secrets/`) and are never written to the disk or visible in standard environment dumps, providing much better security.
+#### 2. Environment Variables & Security
+* **Environment Variables:** Used for all application settings and credentials. By storing secrets in a `.env` file which is excluded from version control (via `.gitignore`), we keep credentials secure on the host machine while simplifying container configuration and deployment.
 
 #### 3. Docker Network vs Host Network
 * **Host Network:** The container shares the host network namespace directly. While it offers maximum throughput, it completely bypasses container network isolation, allowing port conflicts and exposing internal services directly to the host's interface.

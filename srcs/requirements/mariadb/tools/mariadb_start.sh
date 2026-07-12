@@ -1,12 +1,6 @@
 #!/bin/bash
 
-# Lire les secrets s'ils existent, sinon utiliser les variables d'environnement
-if [ -f "/run/secrets/db_password" ]; then
-    SQL_PASSWORD=$(cat /run/secrets/db_password)
-fi
-if [ -f "/run/secrets/db_root_password" ]; then
-    SQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
-fi
+# On utilise directement les variables d'environnement SQL_PASSWORD et SQL_ROOT_PASSWORD transmises via le fichier .env
 
 # Initialisation et configuration uniquement au premier démarrage
 if [ -n "${SQL_DATABASE}" ] && [ ! -d "/var/lib/mysql/${SQL_DATABASE}" ]; then

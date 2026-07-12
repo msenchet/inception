@@ -16,10 +16,6 @@ Ensure your workspace matches the expected layout:
 ├── README.md
 ├── USER_DOC.md
 ├── DEV_DOC.md
-├── secrets/
-│   ├── db_password.txt
-│   ├── db_root_password.txt
-│   └── credentials.txt
 └── srcs/
     ├── .env
     ├── docker-compose.yml
@@ -29,12 +25,9 @@ Ensure your workspace matches the expected layout:
         └── wordpress/
 ```
 
-### Secrets and Environment Files Configuration
-1. Create the `secrets/` folder at the root.
-2. Define the passwords in text files inside the `secrets/` directory:
-   * `secrets/db_password.txt`: Put a database password.
-   * `secrets/db_root_password.txt`: Put a database root password.
-3. Configure the local environment file `srcs/.env` with your host domain and credentials.
+### Environment Configuration
+1. Configure the local environment file `srcs/.env` (and `.env` at the root) with your host domain, credentials (database password, database root password, WordPress admin credentials, etc.), and system configurations.
+2. Make sure the `.env` file is ignored by Git (already listed in `.gitignore`).
 
 ---
 

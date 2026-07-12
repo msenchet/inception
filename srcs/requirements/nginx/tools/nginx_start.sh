@@ -9,6 +9,5 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -out /etc/nginx/ssl/inception.crt \
     -subj "/C=FR/ST=Charente/L=Angouleme/O=42/OU=42/CN=masenche.42.fr/UID=masenche"
 
-# Lancer NGINX au premier plan (Foreground) pour que le conteneur ne s'arrête pas immédiatement
-# C'est la bonne pratique demandée pour éviter les boucles infinies de type tail -f
+# Lancer NGINX au premier plan pour que le conteneur ne s'arrête pas immédiatement
 exec nginx -g "daemon off;"
