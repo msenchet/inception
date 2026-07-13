@@ -17,8 +17,8 @@ COPY tools/mariadb_start.sh /usr/local/bin/mariadb_start.sh
 # Rend le script de démarrage exécutable
 RUN chmod +x /usr/local/bin/mariadb_start.sh
 
-# Expose le port par défaut de MariaDB pour les connexions entrantes
-EXPOSE 3306
+# Expose le port 3307 pour les connexions entrantes
+EXPOSE 3307
 
 # Définit le script exécuté au démarrage du conteneur pour initialiser et lancer MariaDB
 ENTRYPOINT ["/usr/local/bin/mariadb_start.sh"]
